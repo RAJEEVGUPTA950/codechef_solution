@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+long long c,e;
+long long x(int a, string& s, vector<int>& b, map<string, string>& h, string p, set<string>& d, long long m){
+    if(a<0){
+        auto it = d.find(p);
+        if(it == d.end()){
+            d.insert(p);
+            return 1;
+        }
+        return 0;
+    }
+    
+    if(b[a] != -1) 
+    return b[a];
+    
+    c =x(a-1, s, b, h,h[s.substr(a, 1)+p], d, m);
+    e= 0;
+    if(a-1 >= 0 &&  h.find(s.substr(a-1, 2)) != h.end())
+        e=x(a-2, s, b, h, h[s.substr(a-1, 2)]+p, d, m);
+    return b[a] = (c+e) % 998244353;
+    
+}
+
+long long int solve(){
+    string s;
+    cin >> s;
+    long long int n = s.length();
+    vector<int> b(n, -1);
+    map<string, string> h{{"a", "01"}, {"b",  "10"}, {"ab" , "010"}, {"ba" , "101"}};
+    set<string> d;
+    cout <<x(n-1, s, b, h, "", d, 998244353) << endl;
+    return 0;    
+}
+
+int main() {
+  long long int t;
+  cin >> t;
+  while(t--){
+      solve();
+  }
